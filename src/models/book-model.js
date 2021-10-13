@@ -3,29 +3,29 @@ const mongoose = require('mongoose');
 const BookSchema = mongoose.Schema({
     title: {
         type: String,
-        require: true,
+        required: true,
     },
     description: {
         type: String,
-        require: true
+        required: true
     },
     ISBN: {
         type: String,
-        require: true
+        required: true
     },
     price: {
         type: Number,
-        require: true
+        required: true
     },
     author: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Author',
-        require: true
+        required: true
     },
     publisher: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Publisher',
-        require: true
+        required: true
     },
     comments: [{
         type: mongoose.SchemaTypes.ObjectId,
