@@ -14,6 +14,11 @@ const CommentSchema = mongoose.Schema({
         ref: 'Book',
         required: true
     },
+    user: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'User',
+        required: true
+    },
     createdAt: {
         type: Date,
         default: Date.now
