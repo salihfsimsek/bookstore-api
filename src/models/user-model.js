@@ -21,6 +21,11 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        enum: ['admin', 'manager', 'employee', 'user'],
+        default: 'user'
+    },
     orders: [{
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Order'
@@ -40,6 +45,6 @@ const UserSchema = mongoose.Schema({
 
 })
 
-const UserModel = mongoose.Model('User', UserSchema)
+const UserModel = mongoose.model('User', UserSchema)
 
 module.exports = UserModel
