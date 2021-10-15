@@ -4,11 +4,17 @@ const bcrypt = require('bcryptjs');
 
 const jwt = require('jsonwebtoken')
 
+//Data validation
+const { registerValidation } = require('../middlewares/auth-middleware')
+
 const register = async (req, res) => {
     const user = {
         ...req.body
     }
-    console.log(user)
+
+    //When validation failed, we must return message to user
+    const { error } = registerValidation(req.body)
+    if (error) return res.status(400).send({ 'message': `${error.details[0].message}` })
 
     //Encryption
     const salt = await bcrypt.genSalt(10)
@@ -19,10 +25,14 @@ const register = async (req, res) => {
 
     try {
         const createdUser = await AuthService.create(user)
-        res.status(200).send(createdUser)
+        res.status(201).send(createdUser)
     } catch (err) {
         res.status(400).send(err.message)
     }
+}
+
+const login = async (req, res) => {
+
 }
 
 module.exports = { register }
