@@ -25,4 +25,32 @@ const loginValidation = async (req, res, next) => {
     next()
 }
 
-module.exports = { registerValidation, loginValidation }
+const verifyToken = (req, res, next) => {
+    const token = req.header('Authorization')
+    if (!token) return res.status(401).send({ 'message': 'Access Denied' })
+
+    const onlyToken = token.split(' ')[1]
+
+    jwt.verify(onlyToken, process.env.TOKEN_SECRET, (err, user) => {
+        if (err) return res.status(401).send({ 'message': 'Token is not valid' })
+        req.user = user
+        next()
+    })
+}
+
+const checkRoleAdmin = async (req, res, next) => {
+    if (req.user.role === 'admin') next()
+    else res.status(403).send({ 'message': 'You are not allowed to do that' })
+}
+
+const checkRoleManager = async (req, res, next) => {
+    if (req.user.role === 'manager' || req.user.role === 'admin') next()
+    else res.status(403).send({ 'message': 'You are not allowed to do that' })
+}
+
+const checkRoleEmployee = async (req, res, next) => {
+    if (req.user.role === 'employee' || req.user.role === 'manager' || req.user.role === 'admin') next()
+    else res.status(403).send({ 'message': 'You are not allowed to do that' })
+}
+
+module.exports = { registerValidation, loginValidation, verifyToken, checkRoleAdmin, checkRoleManager, checkRoleEmployee }
