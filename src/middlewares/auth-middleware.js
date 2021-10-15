@@ -15,4 +15,14 @@ const registerValidation = (data) => {
     return schema.validate(data)
 }
 
-module.exports = { registerValidation }
+const loginValidation = async (req, res, next) => {
+    const user = await UserService.find({ email: req.body.email })
+    if (!user) return res.status(401).send({ 'message': 'User or email doesnt exist' })
+
+    const validPassword = await bcrypt.compare(req.body.password, user.password)
+    if (!validPassword) return res.status(401).send({ 'message': 'User or email doesnt exist' })
+
+    next()
+}
+
+module.exports = { registerValidation, loginValidation }

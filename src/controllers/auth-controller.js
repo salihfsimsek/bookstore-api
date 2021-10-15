@@ -1,11 +1,12 @@
-const AuthService = require('../services/user-service')
+const UserService = require('../services/user-service')
 
 const bcrypt = require('bcryptjs');
 
 const jwt = require('jsonwebtoken')
 
 //Data validation
-const { registerValidation } = require('../middlewares/auth-middleware')
+const { registerValidation } = require('../middlewares/auth-middleware');
+const { use } = require('../routes/auth-route');
 
 const register = async (req, res) => {
     const user = {
@@ -24,7 +25,7 @@ const register = async (req, res) => {
     user.password = hashedPassword
 
     try {
-        const createdUser = await AuthService.create(user)
+        const createdUser = await UserService.create(user)
         res.status(201).send(createdUser)
     } catch (err) {
         res.status(400).send(err.message)
@@ -32,7 +33,16 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-
+    try {
+        const user = await UserService.find({ email: req.body.email })
+        user.lastSeen = Date.now()
+        console.log(user)
+        await user.save()
+        const token = jwt.sign({ _id: user._id, role: user.role }, process.env.TOKEN_SECRET)
+        res.status(200).send({ 'token': token, 'id': user._id, 'email': user.email, 'role': user.role })
+    } catch (err) {
+        res.status(400).send(err)
+    }
 }
 
-module.exports = { register }
+module.exports = { register, login }
