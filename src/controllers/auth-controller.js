@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken')
 
 //Data validation
 const { registerValidation } = require('../middlewares/auth-middleware');
-const { use } = require('../routes/auth-route');
 
 const register = async (req, res) => {
     const user = {
@@ -38,7 +37,7 @@ const login = async (req, res) => {
         user.lastSeen = Date.now()
         console.log(user)
         await user.save()
-        const token = jwt.sign({ _id: user._id, role: user.role }, process.env.TOKEN_SECRET)
+        const token = jwt.sign({ id: user._id, role: user.role }, process.env.TOKEN_SECRET)
         res.status(200).send({ 'token': token, 'id': user._id, 'email': user.email, 'role': user.role })
     } catch (err) {
         res.status(400).send(err)

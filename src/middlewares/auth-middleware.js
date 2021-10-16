@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
 const UserService = require('../services/user-service')
 
 const registerValidation = (data) => {
@@ -38,6 +39,11 @@ const verifyToken = (req, res, next) => {
     })
 }
 
+const authorizationCheck = (req, res, next) => {
+    if (req.user.id === req.params.id || req.user.role === 'admin') next()
+    else return res.status(403).send({ 'message': 'You are not allowed to do that' })
+}
+
 const checkRoleAdmin = async (req, res, next) => {
     if (req.user.role === 'admin') next()
     else res.status(403).send({ 'message': 'You are not allowed to do that' })
@@ -53,4 +59,4 @@ const checkRoleEmployee = async (req, res, next) => {
     else res.status(403).send({ 'message': 'You are not allowed to do that' })
 }
 
-module.exports = { registerValidation, loginValidation, verifyToken, checkRoleAdmin, checkRoleManager, checkRoleEmployee }
+module.exports = { registerValidation, loginValidation, verifyToken, checkRoleAdmin, checkRoleManager, checkRoleEmployee, authorizationCheck }

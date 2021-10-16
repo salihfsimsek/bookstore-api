@@ -1,4 +1,4 @@
-class BaseModel {
+class BaseService {
     //Find all
     async findAll() {
         return this.model.find()
@@ -25,4 +25,4 @@ class BaseModel {
     }
 }
 
-module.exports = BaseModel
+module.exports = BaseService
