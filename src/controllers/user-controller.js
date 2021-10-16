@@ -22,4 +22,13 @@ const deleteUser = async (req, res) => {
     }
 }
 
-module.exports = { updateUser, deleteUser }
+const changeUsersRole = async (req, res) => {
+    try {
+        const updatedUser = await UserService.update({ _id: req.params.id }, { role: req.body.role })
+        res.status(200).send(updatedUser)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
+
+module.exports = { updateUser, deleteUser, changeUsersRole }
