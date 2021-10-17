@@ -35,7 +35,6 @@ const login = async (req, res) => {
     try {
         const user = await UserService.find({ email: req.body.email })
         user.lastSeen = Date.now()
-        console.log(user)
         await user.save()
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.TOKEN_SECRET)
         res.status(200).send({ 'token': token, 'id': user._id, 'email': user.email, 'role': user.role })
