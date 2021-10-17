@@ -8,6 +8,8 @@ const dotenv = require('dotenv')
 const AuthRouter = require('./src/routes/auth-route')
 const UserRouter = require('./src/routes/user-route')
 const CategoryRouter = require('./src/routes/category-route')
+const AuthorRouter = require('./src/routes/author-route')
+const BookRouter = require('./src/routes/book-route')
 /////////Routes/////////
 
 //Trigger db connection
@@ -25,5 +27,7 @@ app.get('/', async (req, res) => {
 app.use('/api/auth', AuthRouter)
 app.use('/api/user', UserRouter)
 app.use('/api/category', CategoryRouter)
+app.use('/api/author', AuthorRouter)
+app.use('/api/book', BookRouter)
 
 module.exports = app

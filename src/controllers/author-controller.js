@@ -2,9 +2,11 @@ const AuthorService = require('../services/author-service')
 
 const createAuthor = async (req, res) => {
     try {
+        console.log('inside')
         const createdAuthor = await AuthorService.create(req.body)
         res.status(201).send(createdAuthor)
     } catch (err) {
+        console.log(err)
         res.status(400).send(err)
     }
 }

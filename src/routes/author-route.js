@@ -12,10 +12,12 @@ router.post('/', verifyToken, checkRoleManager, createAuthor)
 router.delete('/:id', verifyToken, checkRoleManager, deleteAuthor)
 
 //Update
-router.delete('/:id', verifyToken, checkRoleManager, updateAuthor)
+router.put('/:id', verifyToken, checkRoleManager, updateAuthor)
 
 //Get author
 router.get('/:id', getAuthor)
 
 //Get all authors
 router.get('/', getAllAuthors)
+
+module.exports = router

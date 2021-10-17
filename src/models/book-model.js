@@ -30,12 +30,16 @@ const BookSchema = mongoose.Schema({
     publisher: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Publisher',
-        required: true
+        // required: true
     },
     comments: [{
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Comment',
-    }]
+    }],
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 const BookModel = mongoose.model('Book', BookSchema)

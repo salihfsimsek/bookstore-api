@@ -5,4 +5,4 @@ class AuthorService extends BaseService {
     model = AuthorModel
 }
 
-module.export = new AuthorService()
+module.exports = new AuthorService()
