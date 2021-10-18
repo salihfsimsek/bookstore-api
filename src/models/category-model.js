@@ -7,13 +7,18 @@ const CategorySchema = mongoose.Schema({
     },
     books: [{
         type: mongoose.SchemaTypes.ObjectId,
-        ref: 'Book'
+        ref: 'Book',
+        autopopulate: {
+            maxDepth: 1
+        },
     }],
     createdAt: {
         type: Date,
         default: Date.now
     }
 })
+
+CategorySchema.plugin(require('mongoose-autopopulate'))
 
 const CategoryModel = mongoose.model('Category', CategorySchema)
 

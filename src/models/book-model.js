@@ -20,27 +20,42 @@ const BookSchema = mongoose.Schema({
     author: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Author',
+        autopopulate: {
+            maxDepth: 1
+        },
         required: true
     },
     category: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Category',
+        autopopulate: {
+            maxDepth: 1
+        },
         required: true
     },
     publisher: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Publisher',
+        autopopulate: {
+            maxDepth: 1
+        },
         // required: true
     },
     comments: [{
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Comment',
+        // autopopulate: {
+        //     maxDepth: 1
+        // },
+
     }],
     createdAt: {
         type: Date,
         default: Date.now
     }
 })
+
+BookSchema.plugin(require('mongoose-autopopulate'))
 
 const BookModel = mongoose.model('Book', BookSchema)
 
