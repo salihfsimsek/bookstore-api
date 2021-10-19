@@ -2,6 +2,9 @@ const BookService = require('../services/book-service')
 const AuthorService = require('../services/author-service')
 const CategoryService = require('../services/category-service')
 const PublisherService = require('../services/publisher-service')
+
+const CategoryModel = require('../models/category-model')
+
 const createBook = async (req, res) => {
     try {
         //Find author category and publisher
@@ -41,14 +44,22 @@ const updateBook = async (req, res) => {
     try {
         //Get the book to be update
         const book = await BookService.find({ _id: req.params.id })
+        //When book's category and req.body.category were different, remove book from category's book list 
         if (book.category.id !== req.body.category) {
-            const category = await CategoryService.find({ _id: book.category.id })
-            category.books.pull(book._id)
-            await category.save()
+            const oldCategory = await CategoryService.update({ _id: book.category.id }, { $pull: { books: book._id } })
+            const newCategory = await CategoryService.update({ _id: req.body.category }, { $push: { books: book._id } })
         }
 
+        //When book's author and req.body.author were different, remove book from author's book list 
+        if (book.author.id !== req.body.author) {
+            const oldAuthor = await AuthorService.update({ _id: book.author.id }, { $pull: { books: book._id } })
+            const newAuthor = await AuthorService.update({ _id: req.body.author }, { $push: { books: book._id } })
+        }
+
+        const updatedBook = await BookService.update({ _id: req.params.id }, req.body)
+
         // const updatedBook = await BookService.update({ _id: req.params.id }, req.body)
-        res.status(201).send(book)
+        res.status(201).send(updatedBook)
     } catch (err) {
         res.status(400).send(err)
     }
