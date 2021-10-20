@@ -31,7 +31,16 @@ const createBook = async (req, res) => {
 
 const deleteBook = async (req, res) => {
     try {
-        await BookService.delete(req.params.id)
+        const book = await BookService.find({ _id: req.params.id })
+        const { deletedCount } = await BookService.delete(req.params.id)
+        if (deletedCount === 1) {
+            //When the book deleted remove the book from the other lists
+            await CategoryService.update({ _id: book.category.id }, { $pull: { books: book._id } })
+            await AuthorService.update({ _id: book.author.id }, { $pull: { books: book._id } })
+            await PublisherService.update({ _id: book.publisher.id }, { $pull: { books: book._id } })
+        } else {
+            return res.status(404).send({ 'message': "Something wrong" })
+        }
         res.status(200).send({ 'message': 'Book deleted successfully' })
     } catch (err) {
         res.status(400).send(err)
@@ -42,6 +51,7 @@ const updateBook = async (req, res) => {
     try {
         //Get the book to be update
         const book = await BookService.find({ _id: req.params.id })
+
         //When book's category and req.body.category were different, remove book from category's book list 
         if (book.category.id !== req.body.category) {
             await CategoryService.update({ _id: book.category.id }, { $pull: { books: book._id } })
@@ -53,6 +63,8 @@ const updateBook = async (req, res) => {
             await AuthorService.update({ _id: book.author.id }, { $pull: { books: book._id } })
             await AuthorService.update({ _id: req.body.author }, { $push: { books: book._id } })
         }
+
+        //When book's publisher and req.body.publisher were different, remove book from publisher's book list 
         if (book.publisher.id !== req.body.publisher) {
             await PublisherService.update({ _id: book.publisher.id }, { $pull: { books: book._id } })
             await PublisherService.update({ _id: req.body.publisher }, { $push: { books: book._id } })
@@ -60,7 +72,6 @@ const updateBook = async (req, res) => {
 
         const updatedBook = await BookService.update({ _id: req.params.id }, req.body)
 
-        // const updatedBook = await BookService.update({ _id: req.params.id }, req.body)
         res.status(201).send(updatedBook)
     } catch (err) {
         res.status(400).send(err)
