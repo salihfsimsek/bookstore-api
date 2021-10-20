@@ -39,7 +39,7 @@ const BookSchema = mongoose.Schema({
         autopopulate: {
             maxDepth: 1
         },
-        // required: true
+        required: true
     },
     comments: [{
         type: mongoose.SchemaTypes.ObjectId,

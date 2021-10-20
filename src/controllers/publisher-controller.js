@@ -3,7 +3,7 @@ const PublisherService = require('../services/publisher-service')
 const createPublisher = async (req, res) => {
     try {
         const createdPublisher = await PublisherService.create(req.body)
-        res.status(201).send(createdCategory)
+        res.status(201).send(createdPublisher)
     } catch (err) {
         res.status(400).send(err)
     }
@@ -13,6 +13,15 @@ const deletePublisher = async (req, res) => {
     try {
         await PublisherService.delete(req.params.id)
         res.status(200).send({ 'message': 'Publisher deleted successfully' })
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
+
+const updatePublisher = async (req, res) => {
+    try {
+        const updatedPublisher = await PublisherService.update({ _id: req.params.id }, req.body)
+        res.status(201).send(updatedPublisher)
     } catch (err) {
         res.status(400).send(err)
     }
@@ -36,4 +45,4 @@ const getAllPublishers = async (req, res) => {
     }
 }
 
-module.exports = { createPublisher, deletePublisher, getPublisher, getAllPublishers }
+module.exports = { createPublisher, deletePublisher, updatePublisher, getPublisher, getAllPublishers }

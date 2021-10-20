@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 //////Controllers//////
-const { createPublisher, deletePublisher, getPublisher, getAllPublishers } = require('../controllers/publisher-controller')
+const { createPublisher, deletePublisher, updatePublisher, getPublisher, getAllPublishers } = require('../controllers/publisher-controller')
 
 const { verifyToken, checkRoleManager } = require('../middlewares/auth-middleware')
 
