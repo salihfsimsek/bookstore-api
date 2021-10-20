@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 //////Controllers//////
-const { createCategory, deleteCategory, getCategory, getAllCategories } = require('../controllers/category-controller')
+const { createCategory, deleteCategory, updateCategory, getCategory, getAllCategories } = require('../controllers/category-controller')
 
 //////Middlewares//////
 const { verifyToken, checkRoleManager } = require('../middlewares/auth-middleware')
@@ -11,6 +11,8 @@ router.post('/', verifyToken, checkRoleManager, createCategory)
 
 //Delete Category
 router.delete('/:id', verifyToken, checkRoleManager, deleteCategory)
+
+router.put('/:id', verifyToken, checkRoleManager, updateCategory)
 
 //Get category
 router.get('/:id', getCategory)

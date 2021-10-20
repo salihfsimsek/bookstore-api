@@ -18,6 +18,15 @@ const deleteCategory = async (req, res) => {
     }
 }
 
+const updateCategory = async (req, res) => {
+    try {
+        const updatedCategory = CategoryService.update({ _id: req.params.id }, req.body)
+        res.status(201).send(updatedCategory)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
+
 const getCategory = async (req, res) => {
     try {
         const category = await CategoryService.find({ _id: req.params.id })
@@ -36,4 +45,4 @@ const getAllCategories = async (req, res) => {
     }
 }
 
-module.exports = { createCategory, deleteCategory, getCategory, getAllCategories }
+module.exports = { createCategory, deleteCategory, updateCategory, getCategory, getAllCategories }
