@@ -12,11 +12,17 @@ const CommentSchema = mongoose.Schema({
     book: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Book',
+        autopopulate: {
+            maxDepth: 1
+        },
         required: true
     },
     user: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'User',
+        autopopulate: {
+            maxDepth: 1
+        },
         required: true
     },
     createdAt: {
@@ -24,6 +30,8 @@ const CommentSchema = mongoose.Schema({
         default: Date.now
     }
 })
+
+CommentSchema.plugin(require('mongoose-autopopulate'))
 
 const CommentModel = mongoose.model('Comment', CommentSchema)
 

@@ -27,6 +27,6 @@
     "mongoose-autopopulate": "^0.16.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.14"
   }
 }
