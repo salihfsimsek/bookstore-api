@@ -1,26 +1,33 @@
 const express = require('express')
 const app = express()
+const helmet = require('helmet')
 
-const bodyParser = require('body-parser')
-const dotenv = require('dotenv')
+//Config
+const config = require('./src/configs/index')
+
+//Loaders
+const loaders = require('./src/loaders/index')
 
 /////////Routes/////////
-const AuthRouter = require('./src/routes/auth-route')
-const UserRouter = require('./src/routes/user-route')
-const CategoryRouter = require('./src/routes/category-route')
-const AuthorRouter = require('./src/routes/author-route')
-const BookRouter = require('./src/routes/book-route')
-const PublisherRouter = require('./src/routes/publisher-route')
-const CommentRouter = require('./src/routes/comment-route')
+const {
+    AuthRouter,
+    UserRouter,
+    CategoryRouter,
+    AuthorRouter,
+    BookRouter,
+    PublisherRouter,
+    CommentRouter
+} = require('./src/routes/index')
 /////////Routes/////////
+
+config()
+loaders()
 
 //Trigger db connection
-require('./db')
+require('./src/loaders/db')
 
-//Environment configuration
-dotenv.config()
-
-app.use(bodyParser.json())
+app.use(helmet())
+app.use(express.json())
 
 app.get('/', async (req, res) => {
     res.status(200).send({ 'message': 'Success' })

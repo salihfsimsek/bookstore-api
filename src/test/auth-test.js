@@ -14,7 +14,7 @@ test('Register user', async t => {
     //Create user model
     const userToCreate = {
         firstName: 'Salih',
-        lastName: 'Simsek',
+        lastName: 'Simseeeek',
         email: 'user@user.com',
         password: 'user12345',
         c_password: 'user12345',
@@ -75,4 +75,5 @@ test('Register user', async t => {
 
     t.is(createdPhoneExistUser.error.text.includes('E11000') && createdPhoneExistUser.error.text.includes('phone'), true)
     t.is(createdPhoneExistUser.status, 400)
+
 })

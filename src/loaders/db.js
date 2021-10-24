@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 
 async function main() {
     try {
-        await mongoose.connect('mongodb://localhost/library-api')
+        await mongoose.connect(`${process.env.DB}`)
         console.log('Connected to db')
     } catch (err) {
         console.log('Error connecting to db')
     }
 }
 
-main()
+module.exports = main
