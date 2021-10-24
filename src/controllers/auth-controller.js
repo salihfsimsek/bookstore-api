@@ -27,7 +27,9 @@ const register = async (req, res) => {
         const createdUser = await UserService.create(user)
         res.status(201).send(createdUser)
     } catch (err) {
-        res.status(400).send(err.message)
+        if (err.code === 11000 && err.message.includes('email')) res.status(400).send({ message: 'Email already in use' })
+        else if (err.code === 11000 && err.message.includes('phone')) res.status(400).send({ message: 'Phone number already in use' })
+        else res.status(400).send({ message: err.message })
     }
 }
 

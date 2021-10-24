@@ -18,10 +18,10 @@ const registerValidation = (data) => {
 
 const loginValidation = async (req, res, next) => {
     const user = await UserService.find({ email: req.body.email })
-    if (!user) return res.status(401).send({ 'message': 'User or email doesnt exist' })
+    if (!user) return res.status(401).send({ 'message': "User or email doesn't exist" })
 
     const validPassword = await bcrypt.compare(req.body.password, user.password)
-    if (!validPassword) return res.status(401).send({ 'message': 'User or email doesnt exist' })
+    if (!validPassword) return res.status(401).send({ 'message': 'Email or password is incorrect' })
 
     next()
 }

@@ -58,7 +58,9 @@ test('Register user', async t => {
 
     const createdEmailExistUser = await request(app).post('/api/auth/register').send(emailExistUser)
 
-    t.is(createdEmailExistUser.error.text.includes('E11000') && createdEmailExistUser.error.text.includes('email'), true)
+    let existEmailError = JSON.parse(createdEmailExistUser.error.text)
+
+    t.is(existEmailError.message, "Email already in use")
     t.is(createdEmailExistUser.status, 400)
 
     //Check phone number already exist
@@ -73,7 +75,8 @@ test('Register user', async t => {
 
     const createdPhoneExistUser = await request(app).post('/api/auth/register').send(phoneExistUser)
 
-    t.is(createdPhoneExistUser.error.text.includes('E11000') && createdPhoneExistUser.error.text.includes('phone'), true)
-    t.is(createdPhoneExistUser.status, 400)
+    let phoneExistError = JSON.parse(createdPhoneExistUser.error.text)
 
+    t.is(phoneExistError.message, "Phone number already in use")
+    t.is(createdEmailExistUser.status, 400)
 })
