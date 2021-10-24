@@ -8,7 +8,7 @@ const UserModel = require('../models/user-model')
 
 const bcrypt = require('bcryptjs')
 
-test('Register user', async t => {
+test.serial('Register user', async t => {
     await UserModel.deleteMany({})
 
     //Create user model
@@ -79,4 +79,55 @@ test('Register user', async t => {
 
     t.is(phoneExistError.message, "Phone number already in use")
     t.is(createdEmailExistUser.status, 400)
+})
+
+test('Login user', async t => {
+    await UserModel.deleteMany({})
+    //Create user model
+    const userToCreate = {
+        firstName: 'Salih',
+        lastName: 'Simseeeek',
+        email: 'user@user.com',
+        password: 'user12345',
+        c_password: 'user12345',
+        phone: '9999999999'
+    }
+
+    //Create user
+    const createdUser = await request(app).post('/api/auth/register').send(userToCreate)
+
+    //Check for server response after create user
+    t.is(createdUser.status, 201)
+
+    //Create user model
+    const loginUser = {
+        email: 'user@user.com',
+        password: 'user12345',
+    }
+
+    //Create user
+    const loggedInUser = await request(app).post('/api/auth/login').send(loginUser)
+
+    //Check for server response after create user
+    t.is(loggedInUser.status, 200)
+
+    //Wrong password check
+    const wrongPassUser = {
+        email: 'user@user.com',
+        password: 'user123456789',
+    }
+
+    const wrongPassUserResponse = await request(app).post('/api/auth/login').send(wrongPassUser)
+
+    t.is(wrongPassUserResponse.status, 401)
+
+    //Wrong email password check
+    const wrongEmailUser = {
+        email: 'userr@user.com',
+        password: 'user12345'
+    }
+
+    const wrongEmailUserResponse = await request(app).post('/api/auth/login').send(wrongEmailUser)
+
+    t.is(wrongEmailUserResponse.status, 401)
 })
