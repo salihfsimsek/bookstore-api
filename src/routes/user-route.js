@@ -10,6 +10,9 @@ const { updateUser, deleteUser, changeUsersRole } = require('../controllers/user
 //Validators
 const { userUpdateValidation, userRoleUpdateValidation } = require('../validations/user-validation')
 
+
+//////ROUTES//////
+
 router.put('/:id', verifyToken, authorizationCheck, validate(userUpdateValidation), updateUser)
 
 router.delete('/:id', verifyToken, authorizationCheck, deleteUser)

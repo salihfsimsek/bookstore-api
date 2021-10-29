@@ -5,14 +5,20 @@ const { createCategory, deleteCategory, updateCategory, getCategory, getAllCateg
 
 //////Middlewares//////
 const { verifyToken, checkRoleManager } = require('../middlewares/auth-middleware')
+const validate = require('../middlewares/validate-middleware')
+
+//Validators
+const { categoryValidation } = require('../validations/category-validation')
+
+//////ROUTES//////
 
 //Create category
-router.post('/', verifyToken, checkRoleManager, createCategory)
+router.post('/', verifyToken, checkRoleManager, validate(categoryValidation), createCategory)
 
 //Delete Category
 router.delete('/:id', verifyToken, checkRoleManager, deleteCategory)
 
-router.put('/:id', verifyToken, checkRoleManager, updateCategory)
+router.put('/:id', verifyToken, checkRoleManager, validate(categoryValidation), updateCategory)
 
 //Get category
 router.get('/:id', getCategory)

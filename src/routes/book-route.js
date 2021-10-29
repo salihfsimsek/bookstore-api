@@ -9,6 +9,9 @@ const { createBook, deleteBook, updateBook, getBook, getAllBooks } = require('..
 //Const validators
 const { bookValidation } = require('../validations/book-validation')
 
+
+//////ROUTES//////
+
 //Create
 router.post('/', verifyToken, checkRoleEmployee, validate(bookValidation), createBook)
 

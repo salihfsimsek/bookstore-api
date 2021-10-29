@@ -10,7 +10,8 @@ const validate = require('../middlewares/validate-middleware')
 //Validators
 const { registerValidation, loginValidation } = require('../validations/auth-validation')
 
-//////Routes//////
+//////ROUTES//////
+
 router.post('/register', validate(registerValidation), register)
 
 router.post('/login', validate(loginValidation), loginMiddleware, login)
