@@ -131,3 +131,7 @@ test('Login user', async t => {
 
     t.is(wrongEmailUserResponse.status, 401)
 })
+
+test.after(async t => {
+    await UserModel.deleteMany({})
+})

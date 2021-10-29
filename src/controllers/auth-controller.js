@@ -12,9 +12,9 @@ const register = async (req, res) => {
         ...req.body
     }
 
-    //When validation failed, we must return message to user
-    const { error } = registerValidation(req.body)
-    if (error) return res.status(400).send({ 'message': `${error.details[0].message}` })
+    // //When validation failed, we must return message to user
+    // const { error } = registerValidation(req.body)
+    // if (error) return res.status(400).send({ 'message': `${error.details[0].message}` })
 
     //Encryption
     const salt = await bcrypt.genSalt(10)

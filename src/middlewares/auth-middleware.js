@@ -1,22 +1,9 @@
-const Joi = require('joi');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const UserService = require('../services/user-service')
 
-const registerValidation = (data) => {
-    const schema = Joi.object({
-        firstName: Joi.string().min(2).required(),
-        lastName: Joi.string().min(2).required(),
-        email: Joi.string().email().required(),
-        phone: Joi.string().required(),
-        password: Joi.string().min(8).required(),
-        c_password: Joi.string().valid(Joi.ref('password')).required(),
-        role: Joi.string()
-    })
-    return schema.validate(data)
-}
 
-const loginValidation = async (req, res, next) => {
+const loginMiddleware = async (req, res, next) => {
     const user = await UserService.find({ email: req.body.email })
     if (!user) return res.status(401).send({ 'message': "User or email doesn't exist" })
 
@@ -59,4 +46,4 @@ const checkRoleEmployee = async (req, res, next) => {
     else res.status(403).send({ 'message': 'You are not allowed to do that' })
 }
 
-module.exports = { registerValidation, loginValidation, verifyToken, checkRoleAdmin, checkRoleManager, checkRoleEmployee, authorizationCheck }
+module.exports = { loginMiddleware, verifyToken, checkRoleAdmin, checkRoleManager, checkRoleEmployee, authorizationCheck }
