@@ -2,19 +2,21 @@ const router = require('express').Router()
 
 //////Middlewares//////
 const { verifyToken, checkRoleEmployee } = require('../middlewares/auth-middleware')
-
+const validate = require('../middlewares/validate-middleware')
 //////Controllers//////
 const { createBook, deleteBook, updateBook, getBook, getAllBooks } = require('../controllers/book-controller')
-const { route } = require('./auth-route')
+
+//Const validators
+const { bookValidation } = require('../validations/book-validation')
 
 //Create
-router.post('/', verifyToken, checkRoleEmployee, createBook)
+router.post('/', verifyToken, checkRoleEmployee, validate(bookValidation), createBook)
 
 //Delete
 router.delete('/:id', verifyToken, checkRoleEmployee, deleteBook)
 
 //Update
-router.put('/:id', verifyToken, checkRoleEmployee, updateBook)
+router.put('/:id', verifyToken, checkRoleEmployee, validate(bookValidation), updateBook)
 
 //Get book
 router.get('/:id', getBook)

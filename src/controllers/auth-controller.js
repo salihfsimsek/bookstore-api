@@ -1,27 +1,17 @@
 const UserService = require('../services/user-service')
 
-const bcrypt = require('bcryptjs');
-
 const jwt = require('jsonwebtoken')
 
-//Data validation
-const { registerValidation } = require('../middlewares/auth-middleware');
+//Helper
+const { passwordToHash } = require('../scripts/utils/helper')
 
 const register = async (req, res) => {
     const user = {
         ...req.body
     }
 
-    // //When validation failed, we must return message to user
-    // const { error } = registerValidation(req.body)
-    // if (error) return res.status(400).send({ 'message': `${error.details[0].message}` })
-
-    //Encryption
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(user.password, salt)
-
     //Change users password to hashed
-    user.password = hashedPassword
+    user.password = await passwordToHash(user.password)
 
     try {
         const createdUser = await UserService.create(user)
