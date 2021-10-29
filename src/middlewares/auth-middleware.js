@@ -27,7 +27,7 @@ const verifyToken = (req, res, next) => {
 }
 
 const authorizationCheck = (req, res, next) => {
-    if (req.user.id === req.params.id || req.user.role === 'admin') next()
+    if (req.user.id === req.params.id || req.user.id === req.body.user || req.user.role === 'admin') next()
     else return res.status(403).send({ 'message': 'You are not allowed to do that' })
 }
 
