@@ -9,7 +9,7 @@ const PublisherSchema = mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Book'
     }]
-})
+}, { timestamps: true })
 
 const PublisherModel = mongoose.model('Publisher', PublisherSchema)
 

@@ -48,12 +48,8 @@ const BookSchema = mongoose.Schema({
         //     maxDepth: 1
         // },
 
-    }],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-})
+    }]
+}, { timestamps: true })
 
 BookSchema.plugin(require('mongoose-autopopulate'))
 

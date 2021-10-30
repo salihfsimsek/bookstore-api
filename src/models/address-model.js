@@ -21,7 +21,7 @@ const AddressSchema = mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'User'
     }
-})
+}, { timestamps: true })
 
 const AddressModel = mongoose.model('Address', AddressSchema)
 

@@ -11,12 +11,8 @@ const CategorySchema = mongoose.Schema({
         autopopulate: {
             maxDepth: 1
         },
-    }],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-})
+    }]
+}, { timestamps: true })
 
 CategorySchema.plugin(require('mongoose-autopopulate'))
 

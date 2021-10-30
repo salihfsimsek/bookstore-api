@@ -13,7 +13,7 @@ const AuthorSchema = mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Book'
     }]
-})
+}, { timestamps: true })
 
 const AuthorModel = mongoose.model('Author', AuthorSchema)
 

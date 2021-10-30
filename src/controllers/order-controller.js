@@ -2,10 +2,11 @@
 const httpStatus = require('http-status');
 
 const OrderService = require('../services/order-service')
-
+const BookService = require('../services/book-service')
 const createOrder = async (req, res) => {
     try {
         req.body.user = req.user.id
+        req.body.amount = 0
         const createdOrder = await OrderService.create(req.body)
         res.status(httpStatus.OK).send(createdOrder)
     } catch (err) {

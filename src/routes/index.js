@@ -5,5 +5,6 @@ const AuthorRouter = require('./author-route')
 const BookRouter = require('./book-route')
 const PublisherRouter = require('./publisher-route')
 const CommentRouter = require('./comment-route')
+const OrderRouter = require('./order-route')
 
-module.exports = { AuthRouter, UserRouter, CategoryRouter, AuthorRouter, BookRouter, PublisherRouter, CommentRouter }
+module.exports = { AuthRouter, UserRouter, CategoryRouter, AuthorRouter, BookRouter, PublisherRouter, CommentRouter, OrderRouter }

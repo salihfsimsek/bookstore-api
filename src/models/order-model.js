@@ -22,12 +22,8 @@ const OrderSchema = mongoose.Schema({
     status: {
         type: String,
         default: 'Draft'
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
-})
+    }
+}, { timestamps: true })
 
 const OrderModel = mongoose.model('Order', OrderSchema)
 

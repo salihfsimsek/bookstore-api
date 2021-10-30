@@ -24,12 +24,8 @@ const CommentSchema = mongoose.Schema({
             maxDepth: 1
         },
         required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
     }
-})
+},{timestamps: true})
 
 CommentSchema.plugin(require('mongoose-autopopulate'))
 

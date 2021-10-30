@@ -16,3 +16,5 @@ router.delete('/:id', verifyToken, authorizationCheck, deleteOrder)
 router.get('/:id', verifyToken, authorizationCheck, getOrder)
 
 router.get('/', verifyToken, authorizationCheck, getAllOrders)
+
+module.exports = router
