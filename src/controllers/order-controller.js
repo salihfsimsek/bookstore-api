@@ -6,10 +6,18 @@ const BookService = require('../services/book-service')
 const createOrder = async (req, res) => {
     try {
         req.body.user = req.user.id
-        req.body.amount = 0
+        let amount = 0
         const createdOrder = await OrderService.create(req.body)
+        await Promise.all(createdOrder.items.map(async (item) => {
+            const book = await BookService.find({ _id: item.book })
+            console.log(book)
+            amount += book.price * item.quantity
+        }))
+        createdOrder.amount = amount
+        await createdOrder.save()
         res.status(httpStatus.OK).send(createdOrder)
     } catch (err) {
+        console.log(err)
         res.status(httpStatus.BAD_REQUEST).send(err)
     }
 }
