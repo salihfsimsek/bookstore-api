@@ -59,6 +59,17 @@ const getOrder = async (req, res) => {
     }
 }
 
+//Show only user's orders
+const getUsersAllOrders = async (req, res) => {
+    try {
+        const orders = await OrderService.find({ user: req.user.id })
+        res.status(200).send(orders)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
+
+//Show all order to system. Admin and manager
 const getAllOrders = async (req, res) => {
     try {
         const orders = await OrderService.findAll()
@@ -68,4 +79,14 @@ const getAllOrders = async (req, res) => {
     }
 }
 
-module.exports = { createOrder, updateOrder, deleteOrder, getOrder, getAllOrders }
+//This controller will only be used to change the status of order. Admin, manager, employee
+const updateOrderStatus = async (req, res) => {
+    try {
+        const updatedOrder = await OrderService.update({ _id: req.params.id }, req.body)
+        res.status(httpStatus.OK).send(updatedOrder)
+    } catch (err) {
+        res.status(httpStatus.BAD_REQUEST).send(err)
+    }
+}
+
+module.exports = { createOrder, updateOrder, deleteOrder, getOrder, getUsersAllOrders, getAllOrders, updateOrderStatus }

@@ -21,9 +21,14 @@ const OrderSchema = mongoose.Schema({
     },
     status: {
         type: String,
+        enum: ["Draft", "Pending", "Completed", "Canceled", "Shipped"],
         default: 'Draft'
     }
 }, { timestamps: true })
+
+OrderModel.pre('save', (next) => {
+
+})
 
 const OrderModel = mongoose.model('Order', OrderSchema)
 
