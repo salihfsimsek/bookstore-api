@@ -26,10 +26,6 @@ const OrderSchema = mongoose.Schema({
     }
 }, { timestamps: true })
 
-OrderModel.pre('save', (next) => {
-
-})
-
 const OrderModel = mongoose.model('Order', OrderSchema)
 
 module.exports = OrderModel

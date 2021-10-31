@@ -5,11 +5,15 @@ const { createOrder, deleteOrder, updateOrder, getOrder, getUsersAllOrders, getA
 
 //////Middlewares//////
 const { verifyToken, authorizationCheck, checkRoleManager, checkRoleEmployee } = require('../middlewares/auth-middleware')
+const validate = require('../middlewares/validate-middleware')
+
+//////Validators//////
+const { orderValidation } = require('../validations/order-validation')
 
 //////ROUTES//////
-router.post('/', verifyToken, createOrder)
+router.post('/', verifyToken, validate(orderValidation), createOrder)
 
-router.put('/:id', verifyToken, authorizationCheck, updateOrder)
+router.put('/:id', verifyToken, validate(orderValidation), authorizationCheck, updateOrder)
 
 router.delete('/:id', verifyToken, authorizationCheck, deleteOrder)
 
