@@ -11,11 +11,15 @@ const createOrder = async (req, res) => {
         const createdOrder = await OrderService.create(req.body)
         await Promise.all(createdOrder.items.map(async (item) => {
             const book = await BookService.find({ _id: item.book })
-            console.log(book)
+            if (createdOrder.status === "Pending") {
+                book.stock -= item.quantity
+                await book.save()
+            }
             amount += book.price * item.quantity
         }))
         createdOrder.amount = amount
         await createdOrder.save()
+
         res.status(httpStatus.OK).send(createdOrder)
     } catch (err) {
         console.log(err)

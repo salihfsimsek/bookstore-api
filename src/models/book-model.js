@@ -17,6 +17,10 @@ const BookSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    stock: {
+        type: Number,
+        required: true
+    },
     author: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Author',
@@ -47,7 +51,6 @@ const BookSchema = mongoose.Schema({
         // autopopulate: {
         //     maxDepth: 1
         // },
-
     }]
 }, { timestamps: true })
 

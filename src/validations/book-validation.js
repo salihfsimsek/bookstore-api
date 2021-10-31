@@ -5,6 +5,7 @@ const bookValidation = Joi.object({
     description: Joi.string().required(),
     ISBN: Joi.string().required(),
     price: Joi.number().required(),
+    stock: Joi.number().required(),
     author: Joi.string().required(),
     category: Joi.string().required(),
     publisher: Joi.string().required(),
