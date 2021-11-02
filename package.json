@@ -29,6 +29,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.10",
     "mongoose-autopopulate": "^0.16.0",
+    "node-cron": "^3.0.0",
     "sinon": "^11.1.2"
   },
   "devDependencies": {
