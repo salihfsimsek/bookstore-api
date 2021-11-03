@@ -1,10 +1,10 @@
 const router = require('express').Router()
 
 //////Controllers//////
-const { createOrder, deleteOrder, updateOrder, getOrder, getUsersAllOrders, getAllOrders, updateOrderStatus } = require('../controllers/order-controller')
+const { createOrder, deleteOrder, updateOrder, getOrder, getUsersAllOrders, getAllOrders, updateOrderStatus, monthlyIncome, dailyIncome } = require('../controllers/order-controller')
 
 //////Middlewares//////
-const { verifyToken, authorizationCheck, checkRoleManager, checkRoleEmployee } = require('../middlewares/auth-middleware')
+const { verifyToken, checkRoleAdmin, authorizationCheck, checkRoleManager, checkRoleEmployee } = require('../middlewares/auth-middleware')
 const validate = require('../middlewares/validate-middleware')
 
 //////Validators//////
@@ -27,4 +27,10 @@ router.get('/all-orders', verifyToken, checkRoleManager, getAllOrders)
 
 //This endpoint will only be used to change the status of order. Admin, manager, employee
 router.put('/:id/update-status', verifyToken, checkRoleEmployee, updateOrderStatus)
+
+//////Statistical Routes//////
+router.get('/statistical/monthly-income', verifyToken, checkRoleAdmin, monthlyIncome)
+
+router.get('/statistical/daily-income', verifyToken, checkRoleAdmin, dailyIncome)
+
 module.exports = router

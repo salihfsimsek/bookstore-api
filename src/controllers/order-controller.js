@@ -93,4 +93,34 @@ const updateOrderStatus = async (req, res) => {
     }
 }
 
-module.exports = { createOrder, updateOrder, deleteOrder, getOrder, getUsersAllOrders, getAllOrders, updateOrderStatus }
+//////Statistical Datas For Admin//////
+
+//Get monthly income
+const monthlyIncome = async (req, res) => {
+    const date = new Date()
+    const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
+    const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1))
+
+    try {
+        const data = await OrderService.calculateMonthlyIncome(lastMonth, previousMonth)
+        res.status(httpStatus.OK).send(data)
+    } catch (err) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err)
+    }
+
+    res.send({ last: lastMonth, prev: previousMonth })
+}
+
+const dailyIncome = async (req, res) => {
+    const date = new Date()
+    const lastDay = new Date(date.setDate(date.getDate() - 5))
+    const prevDay = new Date(date.setDate(date.getDate() - 5))
+    try {
+        const data = await OrderService.calculateDailyIncome(lastDay, prevDay)
+        res.status(httpStatus.OK).send(data)
+    } catch (err) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err)
+    }
+}
+
+module.exports = { createOrder, updateOrder, deleteOrder, getOrder, getUsersAllOrders, getAllOrders, updateOrderStatus, monthlyIncome, dailyIncome }
