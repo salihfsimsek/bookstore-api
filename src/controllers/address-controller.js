@@ -42,13 +42,24 @@ const getAddress = async (req, res) => {
     }
 }
 
-const getAllAddress = async (req, res) => {
+//Personal addresses for client
+const getAllAddresses = async (req, res) => {
     try {
-        const address = await AddressService.findAll()
-        res.status(200).send(address)
+        const addresses = await AddressService.findMyAddresses({ user: req.user.id })
+        res.status(200).send(addresses)
     } catch (err) {
         res.status(400).send(err)
     }
 }
 
-module.exports = { createAddress, deleteAddress, updateAddress, getAddress, getAllAddress }
+//Get all addresses for admin and manager
+const getAllAddressesForManager = async (req, res) => {
+    try {
+        const addresses = await AddressService.findAll()
+        res.status(200).send(addresses)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+}
+
+module.exports = { createAddress, deleteAddress, updateAddress, getAddress, getAllAddresses, getAllAddressesForManager }
