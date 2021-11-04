@@ -5,7 +5,7 @@ const addressValidation = Joi.object({
     city: Joi.string().required(),
     district: Joi.string().required(),
     addressLine: Joi.string().required(),
-    user: Joi.string().required(),
+    user: Joi.string(),
 })
 
 module.exports = { addressValidation }

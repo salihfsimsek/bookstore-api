@@ -1,8 +1,13 @@
 const AddressService = require('../services/address-service')
+const UserService = require('../services/user-service')
 
 const createAddress = async (req, res) => {
     try {
+        const currentUser = await UserService.find({ _id: req.user.id })
+        req.body.user = req.user.id
         const createdAddress = await AddressService.create(req.body)
+        currentUser.address.push(createdAddress)
+        await currentUser.save()
         res.status(201).send(createdAddress)
     } catch (err) {
         console.log(err)

@@ -17,7 +17,8 @@ const {
     BookRouter,
     PublisherRouter,
     CommentRouter,
-    OrderRouter
+    OrderRouter,
+    AddressRouter
 } = require('./src/routes/index')
 /////////Routes/////////
 
@@ -42,5 +43,6 @@ app.use('/api/book', BookRouter)
 app.use('/api/publisher', PublisherRouter)
 app.use('/api/comment', CommentRouter)
 app.use('/api/order', OrderRouter)
+app.use('/api/address', AddressRouter)
 
 module.exports = app
