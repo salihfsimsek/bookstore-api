@@ -9,6 +9,7 @@ const bookValidation = Joi.object({
     author: Joi.string().required(),
     category: Joi.string().required(),
     publisher: Joi.string().required(),
+    images: Joi.string(),
     comments: Joi.array()
 })
 
