@@ -96,31 +96,60 @@ const updateOrderStatus = async (req, res) => {
 //////Statistical Datas For Admin//////
 
 //Get monthly income
-const monthlyIncome = async (req, res) => {
-    const date = new Date()
-    const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
-    const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1))
-
+const lastThirtyDaysIncome = async (req, res) => {
+    const prev = new Date(date.setMonth(date.getMonth() - 1))
     try {
-        const data = await OrderService.calculateMonthlyIncome(lastMonth, previousMonth)
+        const data = await OrderService.calculateLast30Days(prev)
         res.status(httpStatus.OK).send(data)
     } catch (err) {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err)
     }
+}
 
-    res.send({ last: lastMonth, prev: previousMonth })
+const lastSevenDaysIncome = async (req, res) => {
+    const prevDay = new Date(date.setDate(date.getDate() - 7))
+    try {
+        const data = await OrderService.calculateLast7Days(prevDay)
+        res.status(httpStatus.OK).send(data)
+    } catch (err) {
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err)
+    }
 }
 
 const dailyIncome = async (req, res) => {
-    const date = new Date()
-    const lastDay = new Date(date.setDate(date.getDate() - 5))
-    const prevDay = new Date(date.setDate(date.getDate() - 5))
     try {
-        const data = await OrderService.calculateDailyIncome(lastDay, prevDay)
+        const data = await OrderService.calculateToday(prev)
         res.status(httpStatus.OK).send(data)
     } catch (err) {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err)
     }
 }
 
-module.exports = { createOrder, updateOrder, deleteOrder, getOrder, getUsersAllOrders, getAllOrders, updateOrderStatus, monthlyIncome, dailyIncome }
+const statisticalOrderInfos = async (req, res) => {
+    let statisticalDatas = {}
+
+    //Last thiry days
+    const date = new Date()
+    const prev30Days = new Date(date.setMonth(date.getMonth() - 1))
+
+    //Last seven days
+    const date2 = new Date()
+    const prev7Days = new Date(date2.setDate(date2.getDate() - 7))
+
+    //Current date
+    const now = new Date();
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    try {
+        const data1 = await OrderService.calculateDailyIncome(prev30Days)
+        const data2 = await OrderService.calculateDailyIncome(prev7Days)
+        const data3 = await OrderService.calculateDailyIncome(startOfToday)
+        statisticalDatas = { lastThirtyDays: data1, lastSevenDays: data2, lastDay: data3 }
+        res.status(httpStatus.OK).send(statisticalDatas)
+    } catch (err) {
+        console.log(err)
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(err)
+    }
+}
+
+module.exports = { createOrder, updateOrder, deleteOrder, getOrder, getUsersAllOrders, getAllOrders, updateOrderStatus, statisticalOrderInfos }

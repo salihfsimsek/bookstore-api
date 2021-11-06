@@ -4,39 +4,22 @@ const OrderModel = require('..//models/order-model')
 class OrderService extends BaseService {
     model = OrderModel
 
-    async calculateMonthlyIncome(last, prev) {
+    async calculateDailyIncome(prev) {
+        console.log(prev)
         return OrderModel.aggregate([
             { $match: { createdAt: { $gte: prev } } },
             {
                 $project: {
-                    month: { $month: '$createdAt' },
+                    day: { $dayOfMonth: '$createdAt' },
                     sales: '$amount'
                 },
             },
             {
                 $group: {
-                    _id: '$month',
+                    _id: '$day',
                     total: { $sum: '$sales' }
                 },
             },
-        ])
-    }
-
-    async calculateDailyIncome(last, prev) {
-        return OrderModel.aggregate([
-            { $match: { createdAt: { $gte: prev } } },
-            {
-                $project: {
-                    date: { $dayOfMonth: '$createdAt' },
-                    sales: '$amount'
-                }
-            },
-            {
-                $group: {
-                    _id: '$date',
-                    total: { $sum: '$sales' }
-                }
-            }
         ])
     }
 }
