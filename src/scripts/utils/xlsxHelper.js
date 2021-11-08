@@ -10,7 +10,7 @@ const convertJSONtoExcel = (data, type) => {
 
     XLSX.write(workBook, { bookType: 'xlsx', type: 'binary' })
 
-    XLSX.writeFile(workBook, `${type}.xlsx`)
+    XLSX.writeFile(workBook, `reports/${type}.xlsx`)
 }
 
 module.exports = { convertJSONtoExcel }
