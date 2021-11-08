@@ -2,7 +2,7 @@ const UserService = require('../services/user-service')
 const bcrypt = require('bcryptjs');
 
 //Helpers
-const { passwordToHash } = require('../scripts/utils/helper')
+const { passwordToHash } = require('../scripts/utils/passwordHelper')
 
 const updateUser = async (req, res) => {
     try {

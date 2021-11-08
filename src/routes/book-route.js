@@ -10,7 +10,7 @@ const { createBook, deleteBook, updateBook, getBook, getAllBooks } = require('..
 const { bookValidation } = require('../validations/book-validation')
 
 //File helper
-const { upload } = require('../scripts/utils/fileHelper')
+const { upload } = require('../scripts/utils/imageHelper')
 
 //////ROUTES//////
 

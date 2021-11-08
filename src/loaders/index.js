@@ -1,7 +1,7 @@
 const db = require('./db')
-const task = require('./cron')
+const emailReportTask = require('./cron')
 
 module.exports = () => {
     db()
-    task.start()
+    emailReportTask.start()
 }

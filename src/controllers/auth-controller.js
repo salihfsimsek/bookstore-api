@@ -3,7 +3,7 @@ const UserService = require('../services/user-service')
 const jwt = require('jsonwebtoken')
 
 //Helper
-const { passwordToHash } = require('../scripts/utils/helper')
+const { passwordToHash } = require('../scripts/utils/passwordHelper')
 
 const register = async (req, res) => {
     const user = {
