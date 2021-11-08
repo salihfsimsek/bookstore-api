@@ -5,15 +5,15 @@ const PublisherService = require('../services/publisher-service')
 
 const createBook = async (req, res) => {
     console.log(req.files)
-    console.log(req.body)
-    
     try {
         //Find author category and publisher
         const author = await AuthorService.find({ _id: req.body.author })
         const category = await CategoryService.find({ _id: req.body.category })
         const publisher = await PublisherService.find({ _id: req.body.publisher })
 
-        //Create new book
+        //Save file path to new array and send new array to book
+        req.body.images = req.files.map(file => file.path)
+        // Create new book
         const createdBook = await BookService.create(req.body)
 
         //Update author's book list, category's book list and publisher's book list

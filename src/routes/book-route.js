@@ -15,7 +15,7 @@ const { upload } = require('../scripts/utils/fileHelper')
 //////ROUTES//////
 
 //Create
-router.post('/', verifyToken, checkRoleEmployee, upload.array('photo', 5), validate(bookValidation), createBook)
+router.post('/', verifyToken, checkRoleEmployee, upload.array('images', 5), validate(bookValidation), createBook)
 
 //Delete
 router.delete('/:id', verifyToken, checkRoleEmployee, deleteBook)

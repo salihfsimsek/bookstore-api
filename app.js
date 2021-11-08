@@ -32,6 +32,9 @@ app.use(helmet())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
+//Get images
+app.use('/uploads', express.static('upload'))
+
 app.get('/', async (req, res) => {
     res.status(200).send({ 'message': 'Success' })
 })

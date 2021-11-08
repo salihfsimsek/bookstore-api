@@ -5,7 +5,6 @@ class OrderService extends BaseService {
     model = OrderModel
 
     async calculateDailyIncome(prev) {
-        console.log(prev)
         return OrderModel.aggregate([
             { $match: { createdAt: { $gte: prev } } },
             {
