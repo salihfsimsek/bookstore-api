@@ -4,7 +4,6 @@ const CategoryService = require('../services/category-service')
 const PublisherService = require('../services/publisher-service')
 
 const createBook = async (req, res) => {
-    console.log(req.files)
     try {
         //Find author category and publisher
         const author = await AuthorService.find({ _id: req.body.author })

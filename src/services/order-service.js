@@ -9,14 +9,17 @@ class OrderService extends BaseService {
             { $match: { createdAt: { $gte: prev } } },
             {
                 $project: {
+                    timeStamp: { $toDate: '$createdAt' },
                     day: { $dayOfMonth: '$createdAt' },
                     sales: '$amount'
                 },
             },
             {
                 $group: {
-                    _id: '$day',
-                    total: { $sum: '$sales' }
+                    _id: {
+                        '$dateToString': { format: '%d-%m-%Y', date: '$timeStamp' }
+                    },
+                    total: { $sum: '$sales' },
                 },
             },
         ])
