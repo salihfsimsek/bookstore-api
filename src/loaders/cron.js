@@ -3,7 +3,7 @@ const axios = require('axios')
 const { convertJSONtoExcel } = require('../scripts/utils/xlsxHelper')
 const { mailHelper } = require('../scripts/utils/mailHelper')
 
-const emailReportTask = cron.schedule('* * * * * *', () => {
+const emailReportTask = cron.schedule('30 22 * * *', () => {
     axios.get('http://127.0.0.1:3001/api/order/statistical/', {
         headers: {
             Authorization: `Bearer ${process.env.FAKE_TOKEN}`
@@ -24,7 +24,6 @@ const emailReportTask = cron.schedule('* * * * * *', () => {
             filename: 'LastDay.xlsx', path: 'reports/LastDay.xlsx'
         }
     ])
-    console.log('worked')
 })
 
 module.exports = emailReportTask

@@ -33,7 +33,6 @@ const updateOrder = async (req, res) => {
         const updatedOrder = await OrderService.update({ _id: req.params.id }, req.body)
         await Promise.all(updatedOrder.items.map(async (item) => {
             const book = await BookService.find({ _id: item.book })
-            console.log(book)
             amount += book.price * item.quantity
         }))
         updatedOrder.amount = amount
