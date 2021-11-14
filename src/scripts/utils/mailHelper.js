@@ -1,6 +1,6 @@
 const nodeMailer = require('nodemailer');
 
-const mailHelper = async (files) => {
+const mailHelper = async (files, mails) => {
     let transporter = nodeMailer.createTransport({
         service: 'gmail',
         auth: {
@@ -13,7 +13,7 @@ const mailHelper = async (files) => {
     try {
         await transporter.sendMail({
             from: `${process.env.EMAIL}`, // sender address
-            to: "salihfiratsimsek@gmail.com, salihsimseeek@gmail.com", // list of receivers
+            to: mails, // list of receivers
             subject: "Report",
             attachments: files
         });
